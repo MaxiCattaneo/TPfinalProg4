@@ -1,0 +1,12 @@
+<div class="container mt-4">
+  <h2>Buscar reserva por ID</h2>
+  <input type="number" [(ngModel)]="reservaId" placeholder="ID de reserva" class="form-control w-25 d-inline-block me-2">
+  <button class="btn btn-primary" (click)="buscarReserva()">Buscar</button>
+
+  <div *ngIf="reserva" class="mt-3">
+    <p><strong>Usuario:</strong> {{ reserva.usuario.nombre }}</p>
+    <p><strong>Cancha:</strong> {{ reserva.cancha.nombre }}</p>
+    <p><strong>Fecha:</strong> {{ reserva.fecha }}</p>
+    <p><strong>Hora:</strong> {{ reserva.hora }}</p>
+  </div>
+</div>

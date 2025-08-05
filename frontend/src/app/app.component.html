@@ -1,0 +1,28 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">Alquiler de Canchas</a>
+
+    <div class="collapse navbar-collapse">
+      <ul class="navbar-nav me-auto">
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/consultar-reservas" routerLinkActive="active">Todas las Reservas</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/consultar-reserva-id" routerLinkActive="active">Buscar por ID</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/reservar-cancha" routerLinkActive="active">Reservar Cancha</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/cancelar-reserva" routerLinkActive="active">Cancelar Reserva</a>
+        </li>
+      </ul>
+
+      <button class="btn btn-outline-light" (click)="logout()">Logout</button>
+    </div>
+  </div>
+</nav>
+
+<div class="container mt-4">
+  <router-outlet></router-outlet>
+</div>
