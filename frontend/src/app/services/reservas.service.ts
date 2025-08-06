@@ -6,12 +6,12 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class ReservasService {
-  private apiUrl = 'http://localhost:8080/api'; 
+  private apiUrl = 'http://localhost:8080/api/reservas'; 
 
   constructor(private http: HttpClient) {}
 
   getReservas(): Observable<any> {
-    return this.http.get(`${this.apiUrl}/consultarReservas`);
+    return this.http.get(`${this.apiUrl}`);
   }
 
   getReservaPorId(id: number): Observable<any> {

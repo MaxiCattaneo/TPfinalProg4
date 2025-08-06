@@ -12,6 +12,15 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.security.config.Customizer;
+
+
+import java.util.List;
+
 @Configuration
 @EnableMethodSecurity
 public class SecurityConfig {
@@ -22,15 +31,16 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
+            .cors(Customizer.withDefaults()) // ✅ Esta línea activa el bean de CORS
             .csrf(csrf -> csrf
-                .ignoringRequestMatchers("/h2-console/**") // ⚠️ Desactiva CSRF solo para H2
+                .ignoringRequestMatchers("/h2-console/**")
                 .disable()
             )
             .headers(headers -> headers
-            	    .frameOptions(frameOptions -> frameOptions.disable())
-            	) // ⚠️ Permite uso de iframe (H2 usa uno)
+                .frameOptions(frameOptions -> frameOptions.disable())
+            )
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/auth/**", "/h2-console/**").permitAll() // 🔓 Permite acceso libre a login y h2-console
+                .requestMatchers("/auth/**", "/h2-console/**").permitAll()
                 .anyRequest().authenticated()
             )
             .sessionManagement(session -> session
@@ -40,6 +50,19 @@ public class SecurityConfig {
         return http.build();
     }
 
+    // Bean para la configuración global CORS
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration config = new CorsConfiguration();
+        config.setAllowedOrigins(List.of("http://localhost:4200"));  // Cambiar si el frontend está en otro host
+        config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+        config.setAllowedHeaders(List.of("*"));
+        config.setAllowCredentials(true);
+
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", config);
+        return source;
+    }
 
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
