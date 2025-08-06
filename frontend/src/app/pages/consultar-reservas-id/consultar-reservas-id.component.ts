@@ -1,9 +1,14 @@
 import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { ReservasService } from '../../services/reservas.service';
 
 @Component({
-  selector: 'app-consultar-reserva-id',
-  templateUrl: './consultar-reserva-id.component.html'
+  selector: 'app-consultar-reservas-id',
+  standalone: true,
+  imports: [CommonModule, FormsModule],
+  templateUrl: './consultar-reservas-id.component.html',
+  styleUrls: ['./consultar-reservas-id.component.css']
 })
 export class ConsultarReservaIdComponent {
   reservaId: number = 0;

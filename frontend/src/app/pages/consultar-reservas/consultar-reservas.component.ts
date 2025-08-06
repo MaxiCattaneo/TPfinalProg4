@@ -1,8 +1,10 @@
 import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-consultar-reservas',
-  templateUrl: './consultar-reservas.component.html',
-  styleUrls: ['./consultar-reservas.component.css']
+  standalone: true,
+  imports: [CommonModule],
+  templateUrl: './consultar-reservas.component.html'
 })
-export class ConsultarReservasComponent { }
+export class ConsultarReservasComponent {}

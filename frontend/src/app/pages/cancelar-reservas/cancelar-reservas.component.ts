@@ -1,9 +1,13 @@
 import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { ReservasService } from '../../services/reservas.service';
 
 @Component({
-  selector: 'app-cancelar-reserva',
-  templateUrl: './cancelar-reserva.component.html'
+  selector: 'app-cancelar-reservas',
+  standalone: true,
+  imports: [CommonModule, FormsModule],
+  templateUrl: './cancelar-reservas.component.html'
 })
 export class CancelarReservaComponent {
   reservaId: number = 0;
