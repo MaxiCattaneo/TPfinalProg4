@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ReservasService } from 'src/app/services/reservas.service';
+import { ReservasService } from '../../services/reservas.service';
 
 @Component({
   selector: 'app-cancelar-reserva',

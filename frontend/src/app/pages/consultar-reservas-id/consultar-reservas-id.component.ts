@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ReservasService } from 'src/app/services/reservas.service';
+import { ReservasService } from '../../services/reservas.service';
 
 @Component({
   selector: 'app-consultar-reserva-id',
@@ -12,7 +12,7 @@ export class ConsultarReservaIdComponent {
   constructor(private reservasService: ReservasService) {}
 
   buscarReserva() {
-    this.reservasService.getReservaPorId(this.reservaId).subscribe(data => {
+    this.reservasService.getReservaPorId(this.reservaId).subscribe((data: any) => {
       this.reserva = data;
     });
   }
