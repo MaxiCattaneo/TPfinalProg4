@@ -58,6 +58,8 @@ public class ReservaService {
             throw new IllegalStateException("La cancha no está disponible en ese horario");
         }
 
+        
+        
         // Crear y guardar la reserva
         Reservas reserva = new Reservas();
         reserva.setUsuarios(usuario);
@@ -72,6 +74,12 @@ public class ReservaService {
         return reservaRepo.findByUsuariosId(usuarioId);
     }
 
+    public List<Reservas> obtenerReservasPorUsername(String username) {
+        Usuarios usuario = usuarioRepo.findByUsername(username)
+                .orElseThrow(() -> new IllegalArgumentException("Usuario no encontrado: " + username));
+        
+        return reservaRepo.findByUsuarios(usuario);
+    }
     public List<Reservas> TodasLasReservas() {
         return reservaRepo.findAll();
     }

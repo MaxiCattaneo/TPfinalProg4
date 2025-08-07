@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
+import { NgbDatepickerModule, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 
 interface Complejo {
   id: number;
@@ -21,7 +22,7 @@ interface Turno {
 @Component({
   selector: 'app-reservar-cancha',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, NgbDatepickerModule],
   templateUrl: './reservar-cancha.component.html',
   styleUrls: ['./reservar-cancha.component.css']
 })
@@ -33,7 +34,7 @@ export class ReservarCanchaComponent implements OnInit {
   complejoSeleccionado: number | null = null;
   canchaSeleccionada: number | null = null;
   turnoSeleccionado: number | null = null;
-  fechaSeleccionada: string = '';
+  fechaSeleccionada: NgbDateStruct | null = null;
 
   mensaje: string = '';
   exito: boolean = false;
@@ -95,12 +96,13 @@ export class ReservarCanchaComponent implements OnInit {
       return;
     }
 
+    const fechaStr = `${this.fechaSeleccionada.year}-${this.pad(this.fechaSeleccionada.month)}-${this.pad(this.fechaSeleccionada.day)}`;
+
     const reservaDTO = {
       canchaId: this.canchaSeleccionada,
       turnoId: this.turnoSeleccionado,
-      fecha: this.fechaSeleccionada
+      fecha: fechaStr
     };
-
 
     this.http.post(`${this.API_BASE}/reservas/reservar`, reservaDTO).subscribe({
       next: () => {
@@ -114,6 +116,11 @@ export class ReservarCanchaComponent implements OnInit {
     });
   }
 
+  pad(n: number): string {
+    return n < 10 ? '0' + n : n.toString();
+  }
+
+
   mostrarMensaje(texto: string, exito: boolean): void {
     this.mensaje = texto;
     this.exito = exito;
@@ -126,6 +133,6 @@ export class ReservarCanchaComponent implements OnInit {
     this.complejoSeleccionado = null;
     this.canchaSeleccionada = null;
     this.turnoSeleccionado = null;
-    this.fechaSeleccionada = '';
+    this.fechaSeleccionada = null;
   }
 }

@@ -34,6 +34,9 @@ export class ReservasService {
     return this.http.get<ReservaDTO>(`${this.apiUrl}/consultarReserva/${id}`, { headers: this.getAuthHeaders() });
   }
 
+  getReservasDelUsuario(): Observable<ReservaDTO[]> {
+    return this.http.get<ReservaDTO[]>(`${this.apiUrl}/mias`, { headers: this.getAuthHeaders() });
+  }
   cancelarReserva(id: number): Observable<void> {
     // Aquí el endpoint DELETE /api/reservas/{id}
     return this.http.delete<void>(`${this.apiUrl}/${id}`, { headers: this.getAuthHeaders() });

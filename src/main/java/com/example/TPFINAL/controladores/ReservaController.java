@@ -68,7 +68,20 @@ public class ReservaController {
         }
     }
 
+    @GetMapping("/mias")
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+    public ResponseEntity<List<ReservasDTO>> obtenerMisReservas() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String username = auth.getName(); // el email o nombre de usuario que esté en el token
 
+        List<ReservasDTO> reservas = reservaService
+            .obtenerReservasPorUsername(username)
+            .stream()
+            .map(reservaService::convertirAReservaDTO)
+            .collect(Collectors.toList());
+
+        return ResponseEntity.ok(reservas);
+    }
     @GetMapping("/consultarReserva/{id}")
     public ResponseEntity<ReservasDTO> obtenerReservaPorId(@PathVariable Long id) {
         Reservas reserva = reservaService.buscarReservaPorId(id);

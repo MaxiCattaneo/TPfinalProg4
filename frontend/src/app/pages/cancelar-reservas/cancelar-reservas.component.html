@@ -1,9 +1,36 @@
 <div class="container mt-4">
-  <h2>Cancelar reserva</h2>
-  <input type="number" [(ngModel)]="reservaId" class="form-control w-25 d-inline-block me-2" placeholder="ID de reserva">
-  <button class="btn btn-danger" (click)="cancelar()">Cancelar</button>
+  <h2>Mis reservas</h2>
 
-  <div *ngIf="mensaje" class="mt-3 alert alert-info">
+  <table class="table table-bordered mt-3" *ngIf="reservas.length > 0">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Fecha</th>
+        <th>Hora</th>
+		<th>Complejo</th>
+        <th>Cancha</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let reserva of reservas">
+        <td>{{ reserva.id }}</td>
+        <td>{{ reserva.fecha }}</td>
+        <td>{{ reserva.horaInicio  }}</td>
+		<td>{{ reserva.nombreComplejo }}</td>
+        <td>{{ reserva.nombreCancha }}</td>
+        <td>
+          <button class="btn btn-danger btn-sm" (click)="cancelar(reserva.id)">Eliminar</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div *ngIf="mensaje" class="alert alert-info mt-3">
     {{ mensaje }}
+  </div>
+
+  <div *ngIf="reservas.length === 0" class="alert alert-warning mt-3">
+    No tienes reservas activas.
   </div>
 </div>

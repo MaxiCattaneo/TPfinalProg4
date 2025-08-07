@@ -2,6 +2,8 @@ package com.example.TPFINAL.repositorios;
 
 import com.example.TPFINAL.modelos.Canchas;
 import com.example.TPFINAL.modelos.Reservas;
+import com.example.TPFINAL.modelos.Usuarios;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -16,4 +18,7 @@ public interface ReservaRepo extends JpaRepository<Reservas, Long> {
     
     // Validacion para saber si la cancha esta disponible
     List<Reservas> findByCanchaAndFechaAndTurnoId(Canchas cancha, LocalDate fecha, Long turnosId);
+    
+    List<Reservas> findByUsuarios(Usuarios usuario);
+
 }

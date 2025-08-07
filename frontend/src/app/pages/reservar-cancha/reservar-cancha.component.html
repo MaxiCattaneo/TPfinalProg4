@@ -5,7 +5,7 @@
     <div class="mb-3">
       <label for="complejoSelect" class="form-label">Complejo</label>
       <select
-        class="form-select"
+        class="form-select"a
         id="complejoSelect"
         required
         [(ngModel)]="complejoSeleccionado"
@@ -52,17 +52,24 @@
       </select>
     </div>
 
-    <div class="mb-3">
-      <label for="fechaInput" class="form-label">Fecha</label>
-      <input
-        type="date"
-        id="fechaInput"
-        class="form-control"
-        required
-        [(ngModel)]="fechaSeleccionada"
-        name="fecha"
-      />
-    </div>
+	<div class="mb-3">
+	  <label for="fechaInput" class="form-label">Fecha</label>
+	  <div class="input-group">
+		<input
+		  class="form-control"
+		  placeholder="dd/mm/yyyy"
+		  name="fecha"
+		  ngbDatepicker
+		  #d="ngbDatepicker"
+		  [(ngModel)]="fechaSeleccionada"
+		  required
+		  autocomplete="off"
+		/>
+		<button class="btn btn-outline-secondary" (click)="d.toggle()" type="button" tabindex="-1">
+		  📅
+		</button>
+	  </div>
+	</div>
 
    
 

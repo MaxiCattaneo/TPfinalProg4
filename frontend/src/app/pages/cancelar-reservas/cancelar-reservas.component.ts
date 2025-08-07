@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ReservasService } from '../../services/reservas.service';
@@ -9,17 +9,30 @@ import { ReservasService } from '../../services/reservas.service';
   imports: [CommonModule, FormsModule],
   templateUrl: './cancelar-reservas.component.html'
 })
-export class CancelarReservaComponent {
-  reservaId: number = 0;
-  mensaje = '';
+export class CancelarReservaComponent implements OnInit {
+  reservas: any[] = [];
+  mensaje: string = '';
 
   constructor(private reservasService: ReservasService) {}
 
-  cancelar() {
-    this.reservasService.cancelarReserva(this.reservaId).subscribe(() => {
-      this.mensaje = 'Reserva cancelada con éxito';
-    }, () => {
-      this.mensaje = 'Error al cancelar la reserva';
+  ngOnInit(): void {
+    this.cargarReservas();
+  }
+
+  cargarReservas(): void {
+    this.reservasService.getReservasDelUsuario().subscribe({
+      next: (data) => this.reservas = data,
+      error: () => this.mensaje = 'Error al cargar las reservas.'
+    });
+  }
+
+  cancelar(id: number): void {
+    this.reservasService.cancelarReserva(id).subscribe({
+      next: () => {
+        this.mensaje = `Reserva ${id} cancelada con éxito.`;
+        this.cargarReservas();
+      },
+      error: () => this.mensaje = 'Error al cancelar la reserva.'
     });
   }
 }
