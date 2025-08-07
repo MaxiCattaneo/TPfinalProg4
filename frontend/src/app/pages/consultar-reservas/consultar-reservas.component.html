@@ -1,22 +1,22 @@
-<h2>Listado de Reservas</h2>
-
 <table>
   <thead>
     <tr>
       <th>ID</th>
-      <th>Nombre</th>
       <th>Fecha</th>
-      <th>Hora</th>
+      <th>Usuario</th>
+      <th>Complejo</th>
       <th>Cancha</th>
+      <th>Hora Inicio</th>
     </tr>
   </thead>
   <tbody>
     <tr *ngFor="let reserva of reservas">
       <td>{{ reserva.id }}</td>
-      <td>{{ reserva.usuarios?.nombre }}</td>
       <td>{{ reserva.fecha }}</td>
-      <td>{{ reserva.turno?.hora }}</td>
-      <td>{{ reserva.cancha?.nombre }}</td>
+      <td>{{ reserva.nombreUsuario }}</td>
+      <td>{{ reserva.nombreComplejo }}</td>
+      <td>{{ reserva.nombreCancha }}</td>
+      <td>{{ reserva.horaInicio }}</td>
     </tr>
   </tbody>
 </table>

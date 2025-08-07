@@ -17,8 +17,14 @@ export class ConsultarReservaIdComponent {
   constructor(private reservasService: ReservasService) {}
 
   buscarReserva() {
-    this.reservasService.getReservaPorId(this.reservaId).subscribe((data: any) => {
+  this.reservasService.getReservaPorId(this.reservaId).subscribe({
+    next: (data) => {
       this.reserva = data;
-    });
-  }
+    },
+    error: (err) => {
+      this.reserva = null;
+      alert('Reserva no encontrada');
+    }
+  });
+}
 }

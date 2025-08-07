@@ -1,5 +1,6 @@
 package com.example.TPFINAL.controladores;
 
+import com.example.TPFINAL.dto.ReservasDTO;
 import com.example.TPFINAL.modelos.Reservas;
 import com.example.TPFINAL.servicios.ReservaService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,9 +8,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/reservas")
+@CrossOrigin(origins = "http://localhost:4200")  // Asegura que se permita el acceso desde el front
 public class ReservaController {
 
     private final ReservaService reservaService;
@@ -19,20 +22,27 @@ public class ReservaController {
         this.reservaService = reservaService;
     }
 
-
     @PostMapping
     public ResponseEntity<Reservas> crearReserva(@RequestBody Reservas reserva) {
         return ResponseEntity.ok(reservaService.crearReserva(reserva));
     }
 
     @GetMapping
-    public ResponseEntity<List<Reservas>> obtenerTodas() {
-        return ResponseEntity.ok(reservaService.TodasLasReservas());
+    public ResponseEntity<List<ReservasDTO>> obtenerTodas() {
+        List<ReservasDTO> reservas = reservaService.TodasLasReservas()
+                .stream()
+                .map(reservaService::convertirAReservaDTO)
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(reservas);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<List<Reservas>> obtenerPorId(@PathVariable Long id) {
-        return ResponseEntity.ok(reservaService.ReservasPorUsuario(id));
+    public ResponseEntity<List<ReservasDTO>> obtenerPorId(@PathVariable Long id) {
+        List<ReservasDTO> reservas = reservaService.ReservasPorUsuario(id)
+                .stream()
+                .map(reservaService::convertirAReservaDTO)
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(reservas);
     }
 
     @DeleteMapping("/{id}")
@@ -40,4 +50,14 @@ public class ReservaController {
         reservaService.cancelarReserva(id);
         return ResponseEntity.noContent().build();
     }
+    
+    @GetMapping("/consultarReserva/{id}")
+    public ResponseEntity<ReservasDTO> obtenerReservaPorId(@PathVariable Long id) {
+        Reservas reserva = reservaService.buscarReservaPorId(id);
+        if (reserva == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(reservaService.convertirAReservaDTO(reserva));
+    }
+    
 }

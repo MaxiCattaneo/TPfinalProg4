@@ -1,6 +1,15 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http'; // agregá HttpHeaders
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
+
+export interface ReservaDTO {
+  id: number;
+  fecha: string;
+  nombreUsuario: string;
+  nombreCancha: string;
+  nombreComplejo: string;
+  horaInicio: string;
+}
 
 @Injectable({
   providedIn: 'root'
@@ -11,22 +20,22 @@ export class ReservasService {
   constructor(private http: HttpClient) {}
 
   private getAuthHeaders() {
-    const token = localStorage.getItem('token'); // o donde tengas guardado el JWT
+    const token = localStorage.getItem('token'); 
     return new HttpHeaders({
       'Authorization': `Bearer ${token}`
     });
   }
 
-  getReservas(): Observable<any> {
-    return this.http.get(this.apiUrl, { headers: this.getAuthHeaders() });
+  getReservas(): Observable<ReservaDTO[]> {
+    return this.http.get<ReservaDTO[]>(this.apiUrl, { headers: this.getAuthHeaders() });
   }
 
-  getReservaPorId(id: number): Observable<any> {
-    return this.http.get(`${this.apiUrl}/consultarReserva/${id}`, { headers: this.getAuthHeaders() });
+  getReservaPorId(id: number): Observable<ReservaDTO> {
+    return this.http.get<ReservaDTO>(`${this.apiUrl}/consultarReserva/${id}`, { headers: this.getAuthHeaders() });
   }
 
-  cancelarReserva(id: number): Observable<any> {
-    return this.http.delete(`${this.apiUrl}/cancelarReserva/${id}`, { headers: this.getAuthHeaders() });
+  cancelarReserva(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/cancelarReserva/${id}`, { headers: this.getAuthHeaders() });
   }
 
   reservarCancha(reserva: any): Observable<any> {

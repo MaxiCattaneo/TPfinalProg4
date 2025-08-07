@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ReservasService } from '../../services/reservas.service'; // Ajustá ruta según tu estructura
+import { ReservasService, ReservaDTO } from '../../services/reservas.service'; // Importá la interfaz
 
 @Component({
   selector: 'app-consultar-reservas',
@@ -11,13 +11,13 @@ import { ReservasService } from '../../services/reservas.service'; // Ajustá ru
 })
 export class ConsultarReservasComponent implements OnInit {
 
-  reservas: any[] = [];
+  reservas: ReservaDTO[] = [];  // Cambiado de any[] a ReservaDTO[]
 
   constructor(private reservasService: ReservasService) {}
 
   ngOnInit(): void {
     this.reservasService.getReservas().subscribe({
-      next: (data) => {
+      next: (data: ReservaDTO[]) => {  // Tipado explícito
         this.reservas = data;
       },
       error: (err) => {
