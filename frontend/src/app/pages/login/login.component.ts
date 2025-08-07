@@ -20,8 +20,7 @@ export class LoginComponent {
     this.authService.login({ username: this.username, password: this.password }).subscribe({
       next: (response: any) => {
         this.authService.setToken(response.token);
-        this.router.navigate(['/consultar-reservas']);
-      },
+        window.location.href = '/';      },
       error: (err) => {
         console.error('Error al iniciar sesión', err);
         alert('Credenciales incorrectas');

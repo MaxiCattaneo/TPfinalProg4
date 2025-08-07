@@ -1,10 +1,12 @@
 package com.example.TPFINAL.controladores;
 
+
 import com.example.TPFINAL.dto.ReservasDTO;
 import com.example.TPFINAL.modelos.Reservas;
 import com.example.TPFINAL.servicios.ReservaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -12,7 +14,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/reservas")
-@CrossOrigin(origins = "http://localhost:4200")  // Asegura que se permita el acceso desde el front
+@CrossOrigin(origins = "http://localhost:4200")
 public class ReservaController {
 
     private final ReservaService reservaService;
@@ -22,11 +24,8 @@ public class ReservaController {
         this.reservaService = reservaService;
     }
 
-    @PostMapping
-    public ResponseEntity<Reservas> crearReserva(@RequestBody Reservas reserva) {
-        return ResponseEntity.ok(reservaService.crearReserva(reserva));
-    }
-
+    
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping
     public ResponseEntity<List<ReservasDTO>> obtenerTodas() {
         List<ReservasDTO> reservas = reservaService.TodasLasReservas()

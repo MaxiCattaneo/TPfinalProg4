@@ -7,6 +7,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface CanchaRepo extends JpaRepository<Canchas, Long> {
@@ -23,4 +24,6 @@ public interface CanchaRepo extends JpaRepository<Canchas, Long> {
         @Param("fecha") LocalDate fecha,
         @Param("turnoId") Long turnoId
     );
+    Optional<Canchas> findByNombre(String nombre);
+
 }

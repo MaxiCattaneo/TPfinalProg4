@@ -4,9 +4,10 @@ import { ConsultarReservaIdComponent } from './pages/consultar-reservas-id/consu
 import { CancelarReservaComponent } from './pages/cancelar-reservas/cancelar-reservas.component';
 import { ReservarCanchaComponent } from './pages/reservar-cancha/reservar-cancha.component';
 import { LoginComponent } from './pages/login/login.component';
+import { InicioComponent } from './pages/inicio/inicio';
 
 export const routes: Routes = [
-  { path: '', redirectTo: 'consultar-reservas', pathMatch: 'full' },
+  { path: '', component: InicioComponent },
   { path: 'consultar-reservas', component: ConsultarReservasComponent },
   { path: 'consultar-reserva-id', component: ConsultarReservaIdComponent },
   { path: 'cancelar-reserva', component: CancelarReservaComponent },

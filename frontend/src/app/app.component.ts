@@ -9,8 +9,15 @@ import { AuthService } from './services/auth.service';
   imports: [CommonModule, RouterModule],
   templateUrl: './app.component.html'
 })
+
 export class AppComponent {
+  isAdmin: boolean = false;
+
   constructor(private authService: AuthService, private router: Router) {}
+
+  ngOnInit(): void {
+    this.setUserRole();
+  }
 
   logout() {
     this.authService.logout();
@@ -20,4 +27,10 @@ export class AppComponent {
   isLoggedIn(): boolean {
     return this.authService.isAuthenticated();
   }
+
+  setUserRole() {
+    const role = this.authService.getUserRole();
+    this.isAdmin = role === 'ROLE_ADMIN';
+  }
+  
 }

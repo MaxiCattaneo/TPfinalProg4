@@ -1,8 +1,13 @@
 package com.example.TPFINAL.servicios;
 
+
 import com.example.TPFINAL.dto.ReservasDTO;
 import com.example.TPFINAL.modelos.*;
+import com.example.TPFINAL.repositorios.CanchaRepo;
 import com.example.TPFINAL.repositorios.ReservaRepo;
+import com.example.TPFINAL.repositorios.TurnoRepo;
+import com.example.TPFINAL.repositorios.UsuarioRepo;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,8 +24,27 @@ public class ReservaService {
     @Autowired
     private CanchaService canchaService;
 
+    @Autowired
+    private UsuarioRepo usuarioRepo;
+
+    @Autowired
+    private CanchaRepo canchaRepo;
+
+    @Autowired
+    private TurnoRepo turnoRepo;
+
+    @Autowired
+    private ReservaRepo reservasRepository;
+
     @Transactional
     public Reservas crearReserva(Reservas reserva) {
+        // Buscar el usuario completo por username antes de guardar
+        String username = reserva.getUsuarios().getUsername();
+        Usuarios usuarioCompleto = usuarioRepo.findByUsername(username)
+            .orElseThrow(() -> new IllegalArgumentException("Usuario no encontrado"));
+
+        reserva.setUsuarios(usuarioCompleto);
+
         boolean disponible = canchaService.CanchasDisponibles(
                 reserva.getCancha().getComplejos().getId(),
                 reserva.getFecha(),
@@ -33,6 +57,7 @@ public class ReservaService {
 
         return reservaRepo.save(reserva);
     }
+
 
     public List<Reservas> ReservasPorUsuario(Long usuarioId) {
         return reservaRepo.findByUsuariosId(usuarioId);
@@ -48,7 +73,7 @@ public class ReservaService {
                 .map(this::convertirAReservaDTO)
                 .collect(Collectors.toList());
     }
-    
+
     public Reservas buscarReservaPorId(Long id) {
         return reservaRepo.findById(id).orElse(null);
     }

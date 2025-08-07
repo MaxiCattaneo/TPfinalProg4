@@ -25,6 +25,14 @@ public class Reservas {
     @JsonBackReference
 
     private Usuarios usuarios;
+    
+    public void setUsuario(Usuarios usuario) {
+        this.usuarios = usuario;
+    }
+
+    public Usuarios getUsuario() {
+        return usuarios;
+    }
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "cancha_id", nullable = false)

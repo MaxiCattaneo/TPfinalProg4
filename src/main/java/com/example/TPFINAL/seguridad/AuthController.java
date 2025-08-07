@@ -3,6 +3,7 @@ package com.example.TPFINAL.seguridad;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.*;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -31,7 +32,11 @@ public class AuthController {
 
         if (auth.isAuthenticated()) {
             UserDetails userDetails = userDetailsService.loadUserByUsername(authRequest.getUsername());
-            String token = jwtUtil.generateToken(userDetails.getUsername());
+            String role = userDetails.getAuthorities().stream()
+                    .findFirst()
+                    .map(GrantedAuthority::getAuthority)
+                    .orElse("USER");
+    String token = jwtUtil.generateToken(userDetails.getUsername(), role);
             Map<String, String> tokenMap = Collections.singletonMap("token", token);
             return ResponseEntity.ok(tokenMap);
         } else {
