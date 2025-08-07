@@ -4,21 +4,22 @@
 
     <div class="collapse navbar-collapse">
       <ul class="navbar-nav me-auto">
-        <li class="nav-item">
+        <li class="nav-item" *ngIf="isLoggedIn()">
           <a class="nav-link" routerLink="/consultar-reservas" routerLinkActive="active">Todas las Reservas</a>
         </li>
-        <li class="nav-item">
+        <li class="nav-item" *ngIf="isLoggedIn()">
           <a class="nav-link" routerLink="/consultar-reserva-id" routerLinkActive="active">Buscar por ID</a>
         </li>
-        <li class="nav-item">
+        <li class="nav-item" *ngIf="isLoggedIn()">
           <a class="nav-link" routerLink="/reservar-cancha" routerLinkActive="active">Reservar Cancha</a>
         </li>
-        <li class="nav-item">
+        <li class="nav-item" *ngIf="isLoggedIn()">
           <a class="nav-link" routerLink="/cancelar-reserva" routerLinkActive="active">Cancelar Reserva</a>
         </li>
       </ul>
 
-      <button class="btn btn-outline-light" (click)="logout()">Logout</button>
+      <button *ngIf="isLoggedIn()" class="btn btn-outline-light" (click)="logout()">Logout</button>
+      <a *ngIf="!isLoggedIn()" routerLink="/login" class="btn btn-outline-light">Login</a>
     </div>
   </div>
 </nav>

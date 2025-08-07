@@ -2,10 +2,13 @@ package com.example.TPFINAL.seguridad;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.*;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.web.bind.annotation.*;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.Collections;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/auth")
@@ -21,14 +24,16 @@ public class AuthController {
     private JwtUtil jwtUtil;
 
     @PostMapping("/login")
-    public String login(@RequestBody AuthRequest authRequest) {
+    public ResponseEntity<Map<String, String>> login(@RequestBody AuthRequest authRequest) {
         Authentication auth = authManager.authenticate(
-                new UsernamePasswordAuthenticationToken(authRequest.getMail(), authRequest.getPassword())
+                new UsernamePasswordAuthenticationToken(authRequest.getUsername(), authRequest.getPassword())
         );
 
         if (auth.isAuthenticated()) {
-            UserDetails userDetails = userDetailsService.loadUserByUsername(authRequest.getMail());
-            return jwtUtil.generateToken(userDetails.getUsername());
+            UserDetails userDetails = userDetailsService.loadUserByUsername(authRequest.getUsername());
+            String token = jwtUtil.generateToken(userDetails.getUsername());
+            Map<String, String> tokenMap = Collections.singletonMap("token", token);
+            return ResponseEntity.ok(tokenMap);
         } else {
             throw new RuntimeException("Credenciales inválidas");
         }

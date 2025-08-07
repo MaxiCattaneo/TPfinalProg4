@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.*;
 import java.time.LocalDate;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -13,20 +15,24 @@ import java.time.LocalDate;
 public class Reservas {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY) // Auto genera id
     private Long id;
 
-    private LocalDate fecha;  
+    private LocalDate fecha;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)  // para evitar problemas de carga perezosa en REST
     @JoinColumn(name = "usuario_id", nullable = false)
+    @JsonBackReference
+
     private Usuarios usuarios;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "cancha_id", nullable = false)
+    @JsonBackReference
     private Canchas cancha;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "turno_id", nullable = false)
-    private Turnos turno;  
-
+    @JsonBackReference
+    private Turnos turno;
 }

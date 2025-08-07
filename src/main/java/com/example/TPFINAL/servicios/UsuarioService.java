@@ -15,8 +15,8 @@ public class UsuarioService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    public Optional<Usuarios> buscarPorMail(String mail) {
-        return usuarioRepo.findByMail(mail);
+    public Optional<Usuarios> buscarPorUsername(String username) {
+        return usuarioRepo.findByUsername(username);
     }
 
     public Usuarios registrarUsuario(Usuarios usuario) {

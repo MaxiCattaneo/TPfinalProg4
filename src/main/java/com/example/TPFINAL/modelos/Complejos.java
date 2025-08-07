@@ -18,5 +18,6 @@ public class Complejos {
     private String ubicacion;
 
     @OneToMany(mappedBy = "complejos", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    
     private List<Canchas> canchas;
 }
