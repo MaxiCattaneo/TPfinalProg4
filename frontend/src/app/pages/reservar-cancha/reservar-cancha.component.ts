@@ -96,10 +96,11 @@ export class ReservarCanchaComponent implements OnInit {
     }
 
     const reservaDTO = {
-      Idcancha: this.canchaSeleccionada,
-      Idturno: this.turnoSeleccionado,
+      canchaId: this.canchaSeleccionada,
+      turnoId: this.turnoSeleccionado,
       fecha: this.fechaSeleccionada
     };
+
 
     this.http.post(`${this.API_BASE}/reservas/reservar`, reservaDTO).subscribe({
       next: () => {

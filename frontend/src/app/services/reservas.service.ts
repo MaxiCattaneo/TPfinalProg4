@@ -35,10 +35,12 @@ export class ReservasService {
   }
 
   cancelarReserva(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/cancelarReserva/${id}`, { headers: this.getAuthHeaders() });
+    // Aquí el endpoint DELETE /api/reservas/{id}
+    return this.http.delete<void>(`${this.apiUrl}/${id}`, { headers: this.getAuthHeaders() });
   }
 
   reservarCancha(reserva: any): Observable<any> {
-    return this.http.post(`${this.apiUrl}/reservarCancha`, reserva, { headers: this.getAuthHeaders() });
+    // Aquí el endpoint POST /api/reservas/reservar
+    return this.http.post(`${this.apiUrl}/reservar`, reserva, { headers: this.getAuthHeaders() });
   }
 }
