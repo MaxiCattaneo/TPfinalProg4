@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 
 import java.security.Key;
 import java.util.Date;
-
+//crea tokens, extrae datos y valida tokens y firma los tokens con clave secrata
 @Component
 public class JwtUtil {
 

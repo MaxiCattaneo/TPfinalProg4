@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
-
+//lee el token, verifica si es valido, si lo es verifica quien es el ususario y deja pasar si esta bien
 @Component
 public class JwtAuthFilter extends OncePerRequestFilter {
 

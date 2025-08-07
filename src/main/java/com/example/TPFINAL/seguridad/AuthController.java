@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Collections;
 import java.util.Map;
-
+//recibe ususario y contra y verifica que sean correctas
 @RestController
 @RequestMapping("/auth")
 public class AuthController {

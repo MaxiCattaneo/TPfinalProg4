@@ -8,7 +8,7 @@ import org.springframework.security.core.userdetails.*;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-
+//busca el usuario en la bdd si noo lo encuentra tira excepcion
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
 
