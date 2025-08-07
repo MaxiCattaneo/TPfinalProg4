@@ -7,7 +7,7 @@ import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 
 import { routes } from './app/app.routes';
-import { JwtInterceptor } from './app/interceptors/jwt-interceptor';  
+import { JwtInterceptor } from './app/interceptors/jwt-interceptor';
 
 bootstrapApplication(AppComponent, {
   providers: [

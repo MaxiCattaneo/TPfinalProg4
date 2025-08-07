@@ -1,5 +1,7 @@
 package com.example.TPFINAL.modelos;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -19,5 +21,8 @@ public class Canchas {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "complejo_id")
+    @JsonBackReference
+
+
     private Complejos complejos;  // Este nombre debe coincidir con el "mappedBy" en Complejo
 }

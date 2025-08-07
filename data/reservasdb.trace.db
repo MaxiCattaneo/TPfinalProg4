@@ -2490,3 +2490,32 @@ INSERT INTO "PUBLIC"."USUARIOS"("ID","MAIL","NOMBRE","PASSWORD","ROL","USERNAME"
 	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:658)
 	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:63)
 	at java.base/java.lang.Thread.run(Thread.java:1447)
+2025-08-07 15:43:55.742417-03:00 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Error de Sintaxis en sentencia SQL "[*]ID"; se esperaba "INSERT"
+Syntax error in SQL statement "[*]ID"; expected "INSERT"; SQL statement:
+ID [42001-232]
+2025-08-07 15:44:53.031069-03:00 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Error de Sintaxis en sentencia SQL "SHOW [*]CREATE TABLE reservas"
+Syntax error in SQL statement "SHOW [*]CREATE TABLE reservas"; SQL statement:
+SHOW CREATE TABLE reservas [42000-232]
+2025-08-07 15:46:13.179454-03:00 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Error de Sintaxis en sentencia SQL "CREATE TABLE RESERVAS (\000d\000a    ID BIGINT AUTO_INCREMENT PRIMARY KEY,\000d\000a    FECHA DATE NOT NULL,\000d\000a    USUARIO_ID BIGINT NOT NULL,\000d\000a    CANCHA_ID BIGINT NOT NULL,\000d\000a    TURNO_ID BIGINT NOT NULL,\000d\000a    -- otras columnas si hay\000d\000a[*])"; se esperaba "identifier"
+Syntax error in SQL statement "CREATE TABLE RESERVAS (\000d\000a    ID BIGINT AUTO_INCREMENT PRIMARY KEY,\000d\000a    FECHA DATE NOT NULL,\000d\000a    USUARIO_ID BIGINT NOT NULL,\000d\000a    CANCHA_ID BIGINT NOT NULL,\000d\000a    TURNO_ID BIGINT NOT NULL,\000d\000a    -- otras columnas si hay\000d\000a[*])"; expected "identifier"; SQL statement:
+CREATE TABLE RESERVAS (
+    ID BIGINT AUTO_INCREMENT PRIMARY KEY,
+    FECHA DATE NOT NULL,
+    USUARIO_ID BIGINT NOT NULL,
+    CANCHA_ID BIGINT NOT NULL,
+    TURNO_ID BIGINT NOT NULL,
+    -- otras columnas si hay
+) [42001-232]
+2025-08-07 15:46:34.193280-03:00 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Error de Sintaxis en sentencia SQL "CREATE TABLE RESERVAS (\000d\000a    ID BIGINT AUTO_INCREMENT PRIMARY KEY,\000d\000a    FECHA DATE NOT NULL,\000d\000a    USUARIO_ID BIGINT NOT NULL,\000d\000a    CANCHA_ID BIGINT NOT NULL,\000d\000a    TURNO_ID BIGINT NOT NULL,\000d\000a[*])"; se esperaba "identifier"
+Syntax error in SQL statement "CREATE TABLE RESERVAS (\000d\000a    ID BIGINT AUTO_INCREMENT PRIMARY KEY,\000d\000a    FECHA DATE NOT NULL,\000d\000a    USUARIO_ID BIGINT NOT NULL,\000d\000a    CANCHA_ID BIGINT NOT NULL,\000d\000a    TURNO_ID BIGINT NOT NULL,\000d\000a[*])"; expected "identifier"; SQL statement:
+CREATE TABLE RESERVAS (
+    ID BIGINT AUTO_INCREMENT PRIMARY KEY,
+    FECHA DATE NOT NULL,
+    USUARIO_ID BIGINT NOT NULL,
+    CANCHA_ID BIGINT NOT NULL,
+    TURNO_ID BIGINT NOT NULL,
+) [42001-232]

@@ -1,7 +1,7 @@
 package com.example.TPFINAL.servicios;
 
-
 import com.example.TPFINAL.dto.ReservasDTO;
+import com.example.TPFINAL.dto.TomarReservasDTO;
 import com.example.TPFINAL.modelos.*;
 import com.example.TPFINAL.repositorios.CanchaRepo;
 import com.example.TPFINAL.repositorios.ReservaRepo;
@@ -33,31 +33,40 @@ public class ReservaService {
     @Autowired
     private TurnoRepo turnoRepo;
 
-    @Autowired
-    private ReservaRepo reservasRepository;
-
     @Transactional
-    public Reservas crearReserva(Reservas reserva) {
-        // Buscar el usuario completo por username antes de guardar
-        String username = reserva.getUsuarios().getUsername();
-        Usuarios usuarioCompleto = usuarioRepo.findByUsername(username)
-            .orElseThrow(() -> new IllegalArgumentException("Usuario no encontrado"));
+    public Reservas crearReserva(TomarReservasDTO dto, String username) {
+        // Obtener usuario desde el nombre de usuario (ya no se usa dto.getUsername())
+        Usuarios usuario = usuarioRepo.findByUsername(username)
+                .orElseThrow(() -> new IllegalArgumentException("Usuario no encontrado"));
 
-        reserva.setUsuarios(usuarioCompleto);
+        // Obtener cancha
+        Canchas cancha = canchaRepo.findById(dto.getCanchaId())
+                .orElseThrow(() -> new IllegalArgumentException("Cancha no encontrada"));
 
+        // Obtener turno
+        Turnos turno = turnoRepo.findById(dto.getTurnoId())
+                .orElseThrow(() -> new IllegalArgumentException("Turno no encontrado"));
+
+        // Verificar disponibilidad de la cancha en la fecha y turno
         boolean disponible = canchaService.CanchasDisponibles(
-                reserva.getCancha().getComplejos().getId(),
-                reserva.getFecha(),
-                reserva.getTurno().getId()
-        ).contains(reserva.getCancha());
+                cancha.getComplejos().getId(),
+                dto.getFecha(),
+                turno.getId()
+        ).stream().anyMatch(c -> c.getId().equals(cancha.getId()));
 
         if (!disponible) {
             throw new IllegalStateException("La cancha no está disponible en ese horario");
         }
 
+        // Crear y guardar la reserva
+        Reservas reserva = new Reservas();
+        reserva.setUsuarios(usuario);
+        reserva.setCancha(cancha);
+        reserva.setTurno(turno);
+        reserva.setFecha(dto.getFecha());
+
         return reservaRepo.save(reserva);
     }
-
 
     public List<Reservas> ReservasPorUsuario(Long usuarioId) {
         return reservaRepo.findByUsuariosId(usuarioId);
@@ -79,15 +88,16 @@ public class ReservaService {
     }
 
     public ReservasDTO convertirAReservaDTO(Reservas reserva) {
-        ReservasDTO dto = new ReservasDTO();
-        dto.setId(reserva.getId());
-        dto.setFecha(reserva.getFecha());
-        dto.setNombreUsuario(reserva.getUsuarios().getNombre()); // nombre del usuario
-        dto.setNombreCancha(reserva.getCancha().getNombre()); // nombre cancha
-        dto.setNombreComplejo(reserva.getCancha().getComplejos().getNombre()); // nombre complejo
-        dto.setHoraInicio(reserva.getTurno().getHoraInicio()); // horaInicio del turno
-        return dto;
+        return new ReservasDTO(
+            reserva.getId(),
+            reserva.getFecha(),
+            reserva.getUsuarios().getNombre(),                     // nombreUsuario
+            reserva.getCancha().getNombre(),                      // nombreCancha
+            reserva.getCancha().getComplejos().getNombre(),        // nombreComplejo
+            reserva.getTurno().getHoraInicio()                    // horaInicio
+        );
     }
+
 
     @Transactional
     public void cancelarReserva(Long reservaId) {

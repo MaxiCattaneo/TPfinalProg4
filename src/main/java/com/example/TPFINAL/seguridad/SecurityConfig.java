@@ -33,7 +33,12 @@ public class SecurityConfig {
             .csrf(csrf -> csrf.disable())     // Deshabilita CSRF para APIs REST
             .headers(headers -> headers.frameOptions(frameOptions -> frameOptions.disable()))
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/auth/**", "/h2-console/**").permitAll()  // Permite sin auth
+                .requestMatchers(
+                    "/auth/**",
+                    "/h2-console/**",
+                    "/api/turnos/**",
+                    "/api/complejos/**"
+                ).permitAll()  // Permite sin auth
                 .anyRequest().authenticated()
             )
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
@@ -45,7 +50,7 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
-        config.setAllowedOrigins(List.of("http://localhost:4200")); // Origen frontend
+        config.setAllowedOrigins(List.of("http://localhost:4200")); // Origen frontend Angular
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         config.setAllowedHeaders(List.of("*"));
         config.setAllowCredentials(true);

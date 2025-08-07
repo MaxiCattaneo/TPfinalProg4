@@ -1,12 +1,15 @@
 package com.example.TPFINAL.controladores;
 
-
 import com.example.TPFINAL.dto.ReservasDTO;
+import com.example.TPFINAL.dto.TomarReservasDTO;
 import com.example.TPFINAL.modelos.Reservas;
 import com.example.TPFINAL.servicios.ReservaService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -24,7 +27,6 @@ public class ReservaController {
         this.reservaService = reservaService;
     }
 
-    
     @PreAuthorize("hasRole('ADMIN')")
     @GetMapping
     public ResponseEntity<List<ReservasDTO>> obtenerTodas() {
@@ -50,6 +52,23 @@ public class ReservaController {
         return ResponseEntity.noContent().build();
     }
     
+    @PostMapping("/reservar")
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
+    public ResponseEntity<?> reservarCancha(@RequestBody TomarReservasDTO dto) {
+        try {
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            String username = authentication.getName();
+
+            Reservas nuevaReserva = reservaService.crearReserva(dto, username);
+            ReservasDTO reservaDTO = reservaService.convertirAReservaDTO(nuevaReserva);
+
+            return ResponseEntity.ok(reservaDTO);
+        } catch (IllegalStateException | IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+
     @GetMapping("/consultarReserva/{id}")
     public ResponseEntity<ReservasDTO> obtenerReservaPorId(@PathVariable Long id) {
         Reservas reserva = reservaService.buscarReservaPorId(id);
@@ -58,5 +77,4 @@ public class ReservaController {
         }
         return ResponseEntity.ok(reservaService.convertirAReservaDTO(reserva));
     }
-    
 }

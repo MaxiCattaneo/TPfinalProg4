@@ -1,0 +1,85 @@
+<div class="container mt-4">
+  <h2>Reservar Cancha</h2>
+  
+  <form (ngSubmit)="hacerReserva()" #reservaForm="ngForm" class="needs-validation" novalidate>
+    <div class="mb-3">
+      <label for="complejoSelect" class="form-label">Complejo</label>
+      <select
+        class="form-select"
+        id="complejoSelect"
+        required
+        [(ngModel)]="complejoSeleccionado"
+        name="complejo"
+        (change)="onCambiarComplejo()"
+      >
+        <option value="" disabled>Seleccione un complejo</option>
+        <option *ngFor="let complejo of complejos" [value]="complejo.id">
+          {{ complejo.nombre }}
+        </option>
+      </select>
+    </div>
+
+    <div class="mb-3">
+      <label for="canchaSelect" class="form-label">Cancha</label>
+      <select
+        class="form-select"
+        id="canchaSelect"
+        required
+        [(ngModel)]="canchaSeleccionada"
+        name="cancha"
+        [disabled]="!canchas.length"
+      >
+        <option value="" disabled>Seleccione una cancha</option>
+        <option *ngFor="let cancha of canchas" [value]="cancha.id">
+          {{ cancha.nombre }}
+        </option>
+      </select>
+    </div>
+
+    <div class="mb-3">
+      <label for="turnoSelect" class="form-label">Turno</label>
+      <select
+        class="form-select"
+        id="turnoSelect"
+        required
+        [(ngModel)]="turnoSeleccionado"
+        name="turno"
+      >
+        <option value="" disabled>Seleccione un turno</option>
+        <option *ngFor="let turno of turnos" [value]="turno.id">
+          {{ turno.horaInicio }}
+        </option>
+      </select>
+    </div>
+
+    <div class="mb-3">
+      <label for="fechaInput" class="form-label">Fecha</label>
+      <input
+        type="date"
+        id="fechaInput"
+        class="form-control"
+        required
+        [(ngModel)]="fechaSeleccionada"
+        name="fecha"
+      />
+    </div>
+
+   
+
+    <button
+      type="submit"
+      class="btn btn-primary"
+      [disabled]="!reservaForm.form.valid"
+    >
+      Reservar
+    </button>
+  </form>
+
+  <div
+    *ngIf="mensaje"
+    class="alert mt-3"
+    [ngClass]="{ 'alert-success': exito, 'alert-danger': !exito }"
+  >
+    {{ mensaje }}
+  </div>
+</div>
