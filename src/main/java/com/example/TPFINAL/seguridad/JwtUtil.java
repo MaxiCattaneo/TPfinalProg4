@@ -11,7 +11,7 @@ import java.util.Date;
 public class JwtUtil {
 
     private final String SECRET_KEY = "clave-para-alquilar-tu-cancha-tobi-y-maxi";
-    private final long EXPIRATION_TIME = 1000 * 60 * 60 * 10; // 10 horas
+    private final long EXPIRATION_TIME = 1000 * 60 * 30; // 30 minutos
 
     private Key getSigningKey() {
         return Keys.hmacShaKeyFor(SECRET_KEY.getBytes());
